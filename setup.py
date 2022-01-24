@@ -10,5 +10,5 @@ setup(
     install_requires=requirements,
     url='https://github.com/datos-abiertos-bo/perkins',
     packages=find_packages(),
-    python_requires='>=3.7',
+    python_requires='>=3.6',
 )
