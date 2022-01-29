@@ -18,12 +18,12 @@ def get_inputs(soup):
     }
 
 
-def process_request(URL, soup, cookies, data, proxy=None, raw=False):
+def process_request(url, soup, cookies, data, proxy=None, raw=False):
     form_imputs = get_inputs(soup)
     form_imputs.update(data)
     form_imputs = {_:__ for _, __ in form_imputs.items() if __ is not None}
 
-    req = perkins.requests.do_request(URL, data=form_imputs, headers={
+    req = perkins.requests.do_request(url, data=form_imputs, headers={
         'Cookie': ';'.join(cookies)
     }, timeout=SNIS_TIMEOUT, proxies=proxy)
 

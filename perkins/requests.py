@@ -8,6 +8,8 @@ import perkins.constants
 
 
 PROXY_TIMEOUT = 30
+REQUEST_RETRY = 5
+REQUEST_SLEEP = 2
 
 
 def do_request(URL, data=None, _try=0, **kwargs):
@@ -20,10 +22,10 @@ def do_request(URL, data=None, _try=0, **kwargs):
         return req_fn(URL, data=data, **kwargs)
 
     except Exception as e:
-        if _try > RETRY_M:
+        if _try > REQUEST_RETRY:
             raise(e)
 
-    time.sleep(_try * SLEEP_T)
+    time.sleep(_try * REQUEST_SLEEP)
     return do_request(URL, data=data, _try=_try + 1, **kwargs)
 
 
