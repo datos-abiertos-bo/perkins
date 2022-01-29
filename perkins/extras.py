@@ -94,3 +94,10 @@ def fetch_geocodes(trim_admin_level=True):
     geo_names = geo_names[geo_names['name'] != ''].set_index('name')
 
     return iso_level_0, iso_geo_names, geo_names
+
+
+__all__ = [
+    'RE_PREFIX',
+    'RE_ARTICLE',
+    'fetch_geocodes'
+]
