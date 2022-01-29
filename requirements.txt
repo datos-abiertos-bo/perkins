@@ -3,3 +3,4 @@ requests[socks]
 unidecode
 numpy
 pandas
+demjson
