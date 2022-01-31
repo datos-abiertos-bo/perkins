@@ -1,6 +1,7 @@
 import time
 import random
 import requests
+import functools
 
 from bs4 import BeautifulSoup
 
@@ -29,7 +30,8 @@ def do_request(URL, data=None, _try=0, **kwargs):
     return do_request(URL, data=data, _try=_try + 1, **kwargs)
 
 
-def setup_proxy(base_url, country='Bolivia', banned=[], timeout=PROXY_TIMEOUT):
+@functools.cache
+def _get_proxy_list(country):
     req = requests.get(
         'https://www.proxydocker.com/es/proxylist/country/{}'.format(country),
         headers=perkins.constants.DEFAULT_HEADERS
@@ -85,6 +87,12 @@ def setup_proxy(base_url, country='Bolivia', banned=[], timeout=PROXY_TIMEOUT):
         'https' if '2' in _['type'] else 'http',
         '{}://{}:{}'.format(PROXY_TYPES[_['type']], _['ip'], _['port'])
     ) for _ in  proxies if _['type'] in PROXY_TYPES.keys()]
+
+    return proxies
+
+
+def setup_proxy(base_url, country='Bolivia', banned=[], timeout=PROXY_TIMEOUT):
+    proxies = _get_proxy_list(country)
     random.shuffle(proxies)
 
     for proxy in proxies:
