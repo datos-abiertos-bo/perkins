@@ -33,7 +33,7 @@ def do_request(URL, data=None, max_retry=REQUEST_RETRY, _try=0, **kwargs):
     )
 
 
-@functools.cache
+@functools.lru_cache(maxsize=None)
 def _get_proxy_list(country):
     req = requests.get(
         'https://www.proxydocker.com/es/proxylist/country/{}'.format(country),
