@@ -13,7 +13,7 @@ REQUEST_RETRY = 5
 REQUEST_SLEEP = 2
 
 
-def do_request(URL, data=None, _try=0, **kwargs):
+def do_request(URL, data=None, max_retry=REQUEST_RETRY, _try=0, **kwargs):
     if data is not None:
         req_fn = requests.post
     else:
@@ -23,11 +23,14 @@ def do_request(URL, data=None, _try=0, **kwargs):
         return req_fn(URL, data=data, **kwargs)
 
     except Exception as e:
-        if _try > REQUEST_RETRY:
+        if _try > max_retry:
             raise(e)
 
     time.sleep(_try * REQUEST_SLEEP)
-    return do_request(URL, data=data, _try=_try + 1, **kwargs)
+
+    return do_request(
+        URL, data=data, max_retry=max_retry, _try=_try + 1, **kwargs
+    )
 
 
 @functools.cache
@@ -113,3 +116,22 @@ def setup_proxy(base_url, country='Bolivia', banned=[], timeout=PROXY_TIMEOUT):
             continue
 
         return proxy
+
+
+def do_proxified_request(url, country='Bolivia', **kwargs):
+    proxies = _get_proxy_list(country)
+    random.shuffle(proxies)
+
+    for proxy in proxies:
+        proxy = dict([proxy])
+
+        try:
+            return do_request(
+                url,
+                max_retry=-1,
+                proxies=proxy,
+                **kwargs
+            )
+
+        except Exception as e:
+            continue

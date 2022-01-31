@@ -5,7 +5,7 @@ requirements = open('requirements.txt').read().split('\n')[:-1]
 
 setup(
     name=PACKAGE_NAME,
-    version='0.1.2',
+    version='0.1.3',
     description='Utilidades para extraccion de datos',
     install_requires=requirements,
     url='https://github.com/datos-abiertos-bo/perkins',
