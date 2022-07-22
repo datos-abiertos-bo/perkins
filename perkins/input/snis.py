@@ -1,4 +1,4 @@
-import demjson
+import demjson3 as demjson
 
 from bs4 import BeautifulSoup
 
