@@ -85,9 +85,9 @@ def fetch_geocodes(trim_admin_level=True):
 
     if trim_admin_level:
         geo_names['name'] = geo_names['name'].str.replace(
-            RE_PREFIX, ''
+            RE_PREFIX, '', regex=True
         ).str.replace(
-            RE_ARTICLE, ''
+            RE_ARTICLE, '', regex=True
         )
 
     geo_names['name'] = geo_names['name'].str.strip()
